@@ -118,9 +118,22 @@ public class MyHashTable<K,V>
 
     public V remove(K key) {return null;}
 
-    public V get(K key) {return null;}
+    public V get(K key) {
+        int index = hashFunction(key);
+        return table.get(index).value;
+        //TODO: Update to handle collisions once that is added to put()
+    }
 
-    public boolean containsKey(Object key) {return true;}
+    public boolean containsKey(Object key) {
+        //TODO: Update to handle values being at other indices due to collisions during insertion
+        int index = hashFunction((K)key);
+        if(table.get(index) == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
     public Set<K> keySet() {return null;}
 
