@@ -20,7 +20,7 @@ public class MyHashTable<K,V>
 //        implements Map<K,V>, Cloneable, java.io.Serializable {
 {
     // Hash table
-    private ArrayList<Entry<K, V>> table;
+    private ArrayList<ArrayList<Entry<K, V>>> table;
 
     // Hash table Size
     private int size;
@@ -53,37 +53,32 @@ public class MyHashTable<K,V>
         threshold = (int)(size * loadFactor);
         table = new ArrayList<>(size);
 
-        // fill arrayList with null
+        // fill arrayList with an ArrayList
         for(int i = 0; i < size; i++) {
-            table.add(i, null);
+            table.add(i, new ArrayList<Entry<K, V>>());
         }
-//        System.out.println("Size: " + table.toArray().length);
-//        for(int i = 0; i < size; i++) {
-//            System.out.println(table.get(i));
-//        }
     }
 
     public int hashFunction(K key) {
-//        System.out.println(key.hashCode() + " % " + size + " = " + key.hashCode() % size);
         return Math.abs(key.hashCode() % size);
     }
 
     // WIP
-    protected void rehash() {
-        System.out.println("rehash started");
-        int oldCap = table.toArray().length;
-        ArrayList<Entry<K, V>> oldTable = table;    // save old table
-
-        size = 2 * size;    // double size
-        threshold = (int)(size * loadFactor);
-        ArrayList<Entry<K, V>> newTable = new ArrayList<>(size);
-
+//    protected void rehash() {
+//        System.out.println("rehash started");
+//        int oldCap = table.toArray().length;
+//        ArrayList<Entry<K, V>> oldTable = table;    // save old table
+//
+//        size = 2 * size;    // double size
+//        threshold = (int)(size * loadFactor);
+//        ArrayList<Entry<K, V>> newTable = new ArrayList<>(size);
+//
 //        for (int i = 0; i < oldCap; i++) {
 //            while()
 //        }
-
-        System.out.println("rehash ended");
-    }
+//
+//        System.out.println("rehash ended");
+//    }
 
     public V put(K key, V value) {
         // throws exception if key or value is empty
@@ -100,12 +95,18 @@ public class MyHashTable<K,V>
 //        System.out.println(key);
 
         int hash = hashFunction(key);   // get hash index
-        System.out.println("Put key=" + key + " in " + hash);
         Entry<K, V> newEntry = new Entry<K, V>(key, value); // create new entry
-//        System.out.println(newEntry.key + " " + newEntry.value);
-//        System.out.println("here");
-        table.add(hash, newEntry);  // add entry at hash index
+        table.get(hash).add(newEntry);  // add entry at hash index
         count++;    // update counter
+
+        // TEST PRINT for hash table
+//        for(int i = 0; i < table.toArray().length; i++) {
+//            System.out.print(i + ":\t");
+//            for(int j = 0; j < table.get(i).toArray().length; j++) {
+//                System.out.print(table.get(i).get(j).key + "\t");
+//            }
+//            System.out.println("");
+//        }
 
 //        Iterator<Entry<K, V>> it = table.iterator();
 //        System.out.println("--------");
@@ -120,6 +121,8 @@ public class MyHashTable<K,V>
 
     public V get(K key) {
         int index = hashFunction(key);
+
+        //TODO: update to get value in ArrayList<ArrayList<Entry<K, V>>>
         return table.get(index).value;
         //TODO: Update to handle collisions once that is added to put()
     }
