@@ -50,9 +50,8 @@ public class MisSpellActionThread implements Runnable {
                controller.SetMsg("No Dictionary is loaded"); 
             }
         });
-        
-        checkWords(textFileName, myDictionary);
 
+        checkWords(textFileName, myDictionary);
     }
 
     /**
@@ -106,10 +105,15 @@ public class MisSpellActionThread implements Runnable {
             {
 // ADD CODE HERE
 // >>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
+                String line = input.nextLine();
+                String[] words = line.split(" ");
+                //AList<Wordlet> lineToDisplay = new AList<>();
+                for(String word : words) {
+                    myLines.addWordlet(new Wordlet(word, checkWord(word, theDictionary)));
+                }
+                myLines.nextLine();
+                showLines(myLines);
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 
             }
 
@@ -130,7 +134,7 @@ public class MisSpellActionThread implements Runnable {
         // ADD CODE HERE
 //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
 
-
+        result = theDictionary.contains(word);
 
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
