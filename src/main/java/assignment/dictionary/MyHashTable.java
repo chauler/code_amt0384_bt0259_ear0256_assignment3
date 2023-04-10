@@ -120,17 +120,23 @@ public class MyHashTable<K,V>
     public V remove(K key) {return null;}
 
     public V get(K key) {
+        //Find the correct bucket that contains the key
         int index = hashFunction(key);
+        ArrayList<Entry<K, V>> bucket = table.get(index);
 
-        //TODO: update to get value in ArrayList<ArrayList<Entry<K, V>>>
-        return table.get(index).value;
-        //TODO: Update to handle collisions once that is added to put()
+        //Search the bucket for the key
+        for(Entry<K, V> item : bucket) {
+            if(item.key.equals(key)) {
+                return item.value;
+            }
+        }
+        //If the item was not found in the expected bucket:
+        return null;
     }
 
     public boolean containsKey(Object key) {
-        //TODO: Update to handle values being at other indices due to collisions during insertion
-        int index = hashFunction((K)key);
-        if(table.get(index) == null) {
+        //If get returns null, item doesnt exist
+        if(get((K)key) == null) {
             return false;
         }
         else {
