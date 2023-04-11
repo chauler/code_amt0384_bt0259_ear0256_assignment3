@@ -109,7 +109,7 @@ public class MisSpellActionThread implements Runnable {
                 String[] words = line.split(" ");
                 //AList<Wordlet> lineToDisplay = new AList<>();
                 for(String word : words) {
-                    myLines.addWordlet(new Wordlet(word, checkWord(word, theDictionary)));
+                    myLines.addWordlet(new Wordlet(word + " ", checkWord(word, theDictionary)));
                 }
                 myLines.nextLine();
                 showLines(myLines);
