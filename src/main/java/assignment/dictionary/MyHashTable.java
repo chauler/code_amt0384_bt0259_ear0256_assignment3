@@ -60,7 +60,29 @@ public class MyHashTable<K,V>
     }
 
     public int hashFunction(K key) {
-        return Math.abs(key.hashCode() % size);
+
+       String string_key =  ((String)key);
+       int sum = 0;
+
+       for(int i = 0;i < string_key.length(); i++ )
+       {
+           sum += ((int)string_key.charAt(i));
+       }
+
+       System.out.println(sum %size);
+
+       return sum %size;
+
+       /* ArrayList<ArrayList<Entry<K, V>>> arr =table;
+        int hash = key.hashCode();
+
+        int arr_index = Integer.parseInt(key) % size; */
+        /*
+    * //get the values from the array (words)
+    * //extract the values from the array
+    * //create an index to store the value in by taking its modulus
+    *
+    * */
     }
 
     // WIP
