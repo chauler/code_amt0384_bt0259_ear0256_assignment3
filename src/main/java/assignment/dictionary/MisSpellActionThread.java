@@ -106,16 +106,25 @@ public class MisSpellActionThread implements Runnable {
 // ADD CODE HERE
 // >>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 String line = input.nextLine();
+
+                //Split the line into separate words so that they can be individually checked
+                //(the regex is used to also separate punctuation so that it can be handled separately)
                 String[] words = line.split("(?<=\\b|[^\\p{L}])", 0);
-                //AList<Wordlet> lineToDisplay = new AList<>();
+
+                //For each word, run spellcheck
                 for(String word : words) {
+                    //Skip empty lines between paragraphs
                     if(word.length()==0) {
                         continue;
                     }
+
+                    //Create wordlet, check spelling if it's a word, but always mark 'true' if it's punctuation
                     myLines.addWordlet(new Wordlet(word, Character.isLetter(word.charAt(0)) ? checkWord(word, theDictionary) : true));
                 }
-                myLines.nextLine();
+
+                //Update display
                 showLines(myLines);
+                myLines.nextLine();
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             }
@@ -136,10 +145,8 @@ public class MisSpellActionThread implements Runnable {
 
         // ADD CODE HERE
 //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>        
-
+        //Check spelling by seeing if the word is in the dictionary
         result = theDictionary.contains(word);
-
-
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
         return result;

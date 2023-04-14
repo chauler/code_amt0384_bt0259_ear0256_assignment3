@@ -70,17 +70,6 @@ public class MyHashTable<K,V>
        }
 
        return sum %size;
-
-       /* ArrayList<ArrayList<Entry<K, V>>> arr =table;
-        int hash = key.hashCode();
-
-        int arr_index = Integer.parseInt(key) % size; */
-        /*
-    * //get the values from the array (words)
-    * //extract the values from the array
-    * //create an index to store the value in by taking its modulus
-    *
-    * */
     }
 
     // WIP
@@ -108,36 +97,31 @@ public class MyHashTable<K,V>
             throw new NullPointerException("value is null");
         }
 
-        // if table is getting full, expand it
-//        if(count >= threshold) {
-//            rehash();
-//        }
-//        System.out.println(key);
-
         int hash = hashFunction(key);   // get hash index
         Entry<K, V> newEntry = new Entry<K, V>(key, value); // create new entry
         table.get(hash).add(newEntry);  // add entry at hash index
         count++;    // update counter
 
-        // TEST PRINT for hash table
-//        for(int i = 0; i < table.toArray().length; i++) {
-//            System.out.print(i + ":\t");
-//            for(int j = 0; j < table.get(i).toArray().length; j++) {
-//                System.out.print(table.get(i).get(j).key + "\t");
-//            }
-//            System.out.println("");
-//        }
-
-//        Iterator<Entry<K, V>> it = table.iterator();
-//        System.out.println("--------");
-//        while(it.hasNext()) {
-//            System.out.println(it.next());
-//        }
-
         return null;
     }
 
-    public V remove(K key) {return null;}
+    public V remove(K key) {
+        //Find the correct bucket
+        int index = hashFunction(key);
+        ArrayList<Entry<K, V>> bucket = table.get(index);
+
+        //Find the item in the bucket
+        for(Entry<K, V> item : bucket) {
+            //If item is found, remove the item and return its value
+            if(item.key.equals(key)) {
+                V val = item.value;
+                bucket.remove(item);
+                return val;
+            }
+        }
+        //If item is not found, return null
+        return null;
+    }
 
     public V get(K key) {
         //Find the correct bucket that contains the key
@@ -164,15 +148,35 @@ public class MyHashTable<K,V>
         }
     }
 
-    public Set<K> keySet() {return null;}
+    public Set<K> keySet() {
+        HashSet<K> set = new HashSet<K>();
+        for(ArrayList<Entry<K, V>> bucket : table) {
+            for(Entry<K, V> item : bucket) {
+                set.add(item.key);
+            }
+        }
+        return set;
+    }
 
-    public Collection<V> values() {return null;}
+    public Collection<V> values() {
+        HashSet<V> set = new HashSet<V>();
+        for(ArrayList<Entry<K, V>> bucket : table) {
+            for(Entry<K, V> item : bucket) {
+                set.add(item.value);
+            }
+        }
+        return set;
+    }
 
-    public boolean isEmpty() {return true;}
+    public boolean isEmpty() {return count==0;}
 
-    public int size() {return 0;}
+    public int size() {return count;}
 
-    public void clear() {}
+    public void clear() {
+        for(ArrayList<Entry<K, V>> bucket : table) {
+            bucket = new ArrayList<Entry<K, V>>();
+        }
+    }
 
 }
 
