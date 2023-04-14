@@ -106,10 +106,13 @@ public class MisSpellActionThread implements Runnable {
 // ADD CODE HERE
 // >>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 String line = input.nextLine();
-                String[] words = line.split(" ");
+                String[] words = line.split("(?<=\\b|[^\\p{L}])", 0);
                 //AList<Wordlet> lineToDisplay = new AList<>();
                 for(String word : words) {
-                    myLines.addWordlet(new Wordlet(word + " ", checkWord(word, theDictionary)));
+                    if(word.length()==0) {
+                        continue;
+                    }
+                    myLines.addWordlet(new Wordlet(word, Character.isLetter(word.charAt(0)) ? checkWord(word, theDictionary) : true));
                 }
                 myLines.nextLine();
                 showLines(myLines);

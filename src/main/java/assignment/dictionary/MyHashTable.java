@@ -69,8 +69,6 @@ public class MyHashTable<K,V>
            sum += ((int)string_key.charAt(i));
        }
 
-       System.out.println(sum %size);
-
        return sum %size;
 
        /* ArrayList<ArrayList<Entry<K, V>>> arr =table;
